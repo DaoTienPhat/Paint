@@ -45,6 +45,7 @@
             this.btDrawCircle = new System.Windows.Forms.Button();
             this.btDrawEllipse = new System.Windows.Forms.Button();
             this.panelCanvas = new System.Windows.Forms.Panel();
+            this.pbCanvas = new System.Windows.Forms.PictureBox();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btThickness1 = new System.Windows.Forms.Button();
@@ -62,11 +63,12 @@
             this.btPaintBucket = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.pbCanvas = new System.Windows.Forms.PictureBox();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panelCanvas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit2.Properties)).BeginInit();
@@ -74,7 +76,6 @@
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -93,7 +94,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
-            this.newToolStripMenuItem});
+            this.newToolStripMenuItem,
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -132,7 +134,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 469);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 652);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(955, 22);
             this.statusStrip1.TabIndex = 1;
@@ -233,8 +235,18 @@
             this.panelCanvas.Controls.Add(this.pbCanvas);
             this.panelCanvas.Location = new System.Drawing.Point(3, 3);
             this.panelCanvas.Name = "panelCanvas";
-            this.panelCanvas.Size = new System.Drawing.Size(922, 327);
+            this.panelCanvas.Size = new System.Drawing.Size(922, 510);
             this.panelCanvas.TabIndex = 4;
+            // 
+            // pbCanvas
+            // 
+            this.pbCanvas.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pbCanvas.Location = new System.Drawing.Point(3, 3);
+            this.pbCanvas.Name = "pbCanvas";
+            this.pbCanvas.Size = new System.Drawing.Size(916, 507);
+            this.pbCanvas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbCanvas.TabIndex = 3;
+            this.pbCanvas.TabStop = false;
             // 
             // vScrollBar1
             // 
@@ -242,7 +254,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.vScrollBar1.Location = new System.Drawing.Point(928, 0);
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 333);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 516);
             this.vScrollBar1.TabIndex = 4;
             // 
             // panel3
@@ -261,7 +273,6 @@
             // btThickness1
             // 
             this.btThickness1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btThickness1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btThickness1.BackgroundImage")));
             this.btThickness1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btThickness1.Image = ((System.Drawing.Image)(resources.GetObject("btThickness1.Image")));
             this.btThickness1.Location = new System.Drawing.Point(3, 3);
@@ -275,6 +286,7 @@
             this.btThickness5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btThickness5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btThickness5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btThickness5.Image = ((System.Drawing.Image)(resources.GetObject("btThickness5.Image")));
             this.btThickness5.Location = new System.Drawing.Point(3, 57);
             this.btThickness5.Name = "btThickness5";
             this.btThickness5.Size = new System.Drawing.Size(118, 17);
@@ -285,6 +297,7 @@
             // 
             this.btThickness7.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btThickness7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btThickness7.Image = ((System.Drawing.Image)(resources.GetObject("btThickness7.Image")));
             this.btThickness7.Location = new System.Drawing.Point(3, 79);
             this.btThickness7.Name = "btThickness7";
             this.btThickness7.Size = new System.Drawing.Size(118, 17);
@@ -295,6 +308,7 @@
             // 
             this.btThickness3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btThickness3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btThickness3.Image = ((System.Drawing.Image)(resources.GetObject("btThickness3.Image")));
             this.btThickness3.Location = new System.Drawing.Point(3, 30);
             this.btThickness3.Name = "btThickness3";
             this.btThickness3.Size = new System.Drawing.Size(118, 21);
@@ -308,6 +322,8 @@
             this.colorPickEdit1.Name = "colorPickEdit1";
             this.colorPickEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.colorPickEdit1.Properties.ShowSystemColors = false;
+            this.colorPickEdit1.Properties.ShowWebColors = false;
             this.colorPickEdit1.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.colorPickEdit1.Size = new System.Drawing.Size(48, 20);
             this.colorPickEdit1.TabIndex = 5;
@@ -319,6 +335,8 @@
             this.colorPickEdit2.Name = "colorPickEdit2";
             this.colorPickEdit2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.colorPickEdit2.Properties.ShowSystemColors = false;
+            this.colorPickEdit2.Properties.ShowWebColors = false;
             this.colorPickEdit2.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.Standard;
             this.colorPickEdit2.Size = new System.Drawing.Size(48, 20);
             this.colorPickEdit2.TabIndex = 6;
@@ -366,9 +384,6 @@
             // cbPaintBuketState
             // 
             this.cbPaintBuketState.FormattingEnabled = true;
-            this.cbPaintBuketState.Items.AddRange(new object[] {
-            "Solid Color",
-            "Linear Gradient Color"});
             this.cbPaintBuketState.Location = new System.Drawing.Point(45, 10);
             this.cbPaintBuketState.Name = "cbPaintBuketState";
             this.cbPaintBuketState.Size = new System.Drawing.Size(116, 21);
@@ -407,28 +422,23 @@
             this.panel7.Controls.Add(this.vScrollBar1);
             this.panel7.Location = new System.Drawing.Point(5, 134);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(950, 335);
+            this.panel7.Size = new System.Drawing.Size(950, 518);
             this.panel7.TabIndex = 5;
             // 
-            // pbCanvas
+            // exitToolStripMenuItem
             // 
-            this.pbCanvas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbCanvas.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.pbCanvas.Location = new System.Drawing.Point(3, 3);
-            this.pbCanvas.Name = "pbCanvas";
-            this.pbCanvas.Size = new System.Drawing.Size(916, 322);
-            this.pbCanvas.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbCanvas.TabIndex = 3;
-            this.pbCanvas.TabStop = false;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(955, 491);
+            this.ClientSize = new System.Drawing.Size(955, 674);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel3);
@@ -445,6 +455,7 @@
             this.statusStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panelCanvas.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).EndInit();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit2.Properties)).EndInit();
@@ -454,7 +465,6 @@
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbCanvas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -496,6 +506,7 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.PictureBox pbCanvas;
         private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 

@@ -12,8 +12,8 @@ namespace Paint
     abstract class Shape
     {
         public abstract void draw();
-        public abstract void draw(PaintEventArgs e);
-        public abstract void draw(Pen p, PaintEventArgs e);
+        public abstract void draw(Graphics g);
+        public abstract void draw(Pen p, Graphics g);
         public abstract void draw(Pen p, Point startPoint, Point endPoint, PaintEventArgs e);
         public abstract void draw(Pen p, Point startPoint, Point endPoint, Graphics g);
         public abstract void fillColor(Color color);

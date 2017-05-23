@@ -124,9 +124,9 @@ namespace MyPaint
             return false;
         }
 
-        public override void draw(PaintEventArgs e)
+        public override void draw(Graphics e)
         {
-            this.MGraphic = e.Graphics;
+            this.MGraphic = e;
             MGraphic.DrawRectangle(MPen1, getSquare(Start1, End1));
             paintColor();
         }
@@ -141,9 +141,9 @@ namespace MyPaint
         }
 
 
-        public override void draw(Pen p, PaintEventArgs e)
+        public override void draw(Pen p, Graphics e)
         {
-            e.Graphics.DrawRectangle(p, getSquare(Start1, End1));
+            e.DrawRectangle(p, getSquare(Start1, End1));
             this.MPen1 = new Pen(p.Color, p.Width);
             paintColor();
         }

@@ -133,17 +133,17 @@ namespace MyPaint
             return false;
         }
 
-        public override void draw(PaintEventArgs e)
+        public override void draw(Graphics e)
         {
-            this.MGraphic = e.Graphics;
+            this.MGraphic = e;
             MGraphic.DrawEllipse(MPen1, getEllipse(Start1, End1));
             paintColor();
         }
 
-        public override void draw(Pen p, PaintEventArgs e)
+        public override void draw(Pen p, Graphics e)
         {
             this.MPen1 = new Pen(p.Color, p.Width);
-            e.Graphics.DrawEllipse(p, getEllipse(Start1, End1));
+            e.DrawEllipse(p, getEllipse(Start1, End1));
             paintColor();
         }
 
@@ -192,7 +192,7 @@ namespace MyPaint
 
         public override void add(Pen p, Point starPoint, Point endPoint, Graphics g)
         {
-            this.mPen = new Pen(p.Color, p.Width);
+            this.mPen1 = new Pen(p.Color, p.Width);
             this.start = starPoint;
             this.end = endPoint;
             this.mGraphic = g;

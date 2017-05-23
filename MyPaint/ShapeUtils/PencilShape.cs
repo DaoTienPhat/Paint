@@ -122,13 +122,13 @@ namespace MyPaint.ShapeUtils
             }
         }
 
-        public override void draw(PaintEventArgs e)
+        public override void draw(Graphics e)
         {           
             if (PointList.Count > 1)
             {
                 for (int i = 0; i < PointList.Count - 1; i++)
                 {
-                    this.MGraphic = e.Graphics;
+                    this.MGraphic = e;
                     this.mPen.SetLineCap(LineCap.Round
                 , LineCap.Round
                 , DashCap.Round);
@@ -144,14 +144,14 @@ namespace MyPaint.ShapeUtils
             return true;
         }
 
-        public override void draw(Pen p, PaintEventArgs e)
+        public override void draw(Pen p, Graphics e)
         {          
 
             if (PointList.Count > 1)
             {
                 for (int i = 0; i < PointList.Count - 1; i++)
                 {
-                    this.MGraphic = e.Graphics;
+                    this.MGraphic = e;
                     this.MPen = new Pen(p.Color, p.Width);
                     this.mPen.SetLineCap(LineCap.Round
                 , LineCap.Round

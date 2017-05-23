@@ -22,15 +22,15 @@ namespace MyPaint
         private Point start = new Point(0, 0);
         private Point end = new Point(0, 0);
         private Point current = new Point(0, 0);
-        private int index = -1;
         private bool drawing;
         private String pictureName = "Untitle-1.jpeg";
-        
+
         private List<Shape> shape = new List<Shape>();
         private Status state;
-        private int thick;
         private Color lineColor;
         private List<String> cbPaintBucketStateList;
+        TextBox tb = new TextBox();
+        private bool saveState = false;
 
         public enum Thickness
         {
@@ -53,7 +53,6 @@ namespace MyPaint
             PaintBucketGradient,
         }
 
-
         public Form1()
         {
             InitializeComponent();
@@ -69,11 +68,17 @@ namespace MyPaint
             declareThicknessClick();
             declareShapeMouseHover();
             declareCanvasMouseEvent();
+            this.Controls.Add(tb);
+            this.KeyPress += pbCanvas_KeyDown;
 
             colorPickEdit1.Color = Color.Black;
             lineColor = colorPickEdit1.Color;
             colorPickEdit2.Color = Color.White;
-            
+
+            cbPaintBuketState.Items.Add("Solid  Color");
+            cbPaintBuketState.Items.Add("Linear Gradient Color");
+            cbPaintBuketState.SelectedIndex = 0;
+
         }
 
         private void declareShapeMouseHover()
@@ -121,7 +126,7 @@ namespace MyPaint
             mPen.Color = lineColor;
 
             switch (state)
-            {               
+            {
                 case Status.Line:
                     {
                         shape.Add(new LineShape(mPen, start, end));
@@ -149,9 +154,9 @@ namespace MyPaint
                     }
                 case Status.PaintBucketSolid:
                     {
-                        fillTheShape(e.Location);             
+                        fillTheShape(e.Location);
                         break;
-                    } 
+                    }
                 case Status.PaintBucketGradient:
                     {
                         break;
@@ -170,16 +175,12 @@ namespace MyPaint
             Color cl = getPixelColor(e.X, e.Y);
 
             Bitmap bmp = new Bitmap(pbCanvas.Image);
-            
+
             FloodFill(bmp,
                 e,
                 bmp.GetPixel(e.X, e.Y),
                 colorPickEdit1.Color);
 
-            //FloodFill(bmp,
-            //    e,
-            //    Color.White,
-            //    colorPickEdit1.Color);
             pbCanvas.Image = bmp;
             pbCanvas.Invalidate();
         }
@@ -204,7 +205,7 @@ namespace MyPaint
             end = e.Location;
 
             if (drawing)
-            {                
+            {
                 pbCanvas.Invalidate();
             }
         }
@@ -217,19 +218,18 @@ namespace MyPaint
             {
                 for (int i = 0; i < shape.Count; i++)
                 {
-                    shape[i].draw(e);
-                }                
+                    shape[i].draw(e.Graphics);
+                }
                 if (drawing)
                 {
-
                     if (state != Status.PaintBucketSolid)
                     {
-                        shape[shape.Count - 1].draw(mPen, start, end, e);
+                        shape[shape.Count - 1].draw(mPen, start, end, e.Graphics);
                     }
                     //shape[shape.Count - 1].fillColor(colorPickEdit1.Color, colorPickEdit2.Color);
                 }
-            }            
-            
+            }
+
         }
 
         // tạo ảnh mặc định cho PictureBox pbCanvas
@@ -267,7 +267,8 @@ namespace MyPaint
             return color;
         }
         ///////////
-        //tìm màu trùng hợp
+
+        //tìm màu trùng nhau
         public bool ColorMatch(Color a, Color b)
         {
             if (a.ToArgb().ToString().Equals(b.ToArgb().ToString()))
@@ -280,7 +281,6 @@ namespace MyPaint
 
         public void FloodFill(Bitmap bmp, Point pt, Color targetColor, Color replacementColor)
         {
-            //bmp = new Bitmap(pbCanvas.Image);
             Queue<Point> q = new Queue<Point>();
             q.Enqueue(pt);
             while (q.Count > 0)
@@ -349,7 +349,7 @@ namespace MyPaint
                 return;
             }
             if (sender.Equals(btPaintBucket))
-            {                
+            {
                 if (cbPaintBuketState.SelectedItem.ToString() == "Linear Gradient Color")
                 {
                     state = Status.PaintBucketGradient;
@@ -439,8 +439,8 @@ namespace MyPaint
             dialog.RestoreDirectory = true;
 
             if (dialog.ShowDialog() == DialogResult.OK && !dialog.FileName.Equals(""))
-            {                
-                Bitmap bmp = new Bitmap(pbCanvas.Image);                
+            {
+                Bitmap bmp = new Bitmap(pbCanvas.Image);
                 bmp.Save(dialog.FileName, ImageFormat.Jpeg);
             }
         }
@@ -466,16 +466,30 @@ namespace MyPaint
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {                       
+        {
             using (Graphics g = Graphics.FromImage(pbCanvas.Image))
             {
                 //g.Clear(Color.White);
                 shape.Clear();
-                
+
                 //pbCanvas.
                 pbCanvas.Image = new Bitmap(panelCanvas.Width, panelCanvas.Height);
-            }           
+            }
             pbCanvas.Invalidate();
+        }
+
+        private void pbCanvas_KeyDown(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar.Equals((char) Keys.Z))
+            {
+                MessageBox.Show("Ctrl + Z");
+            }
+        }
+
+        //Exit menu thoát chương trình
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
     }
 }

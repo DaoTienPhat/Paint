@@ -141,16 +141,16 @@ namespace MyPaint
             return false;
         }
 
-        public override void draw(PaintEventArgs e)
+        public override void draw(Graphics e)
         {
-            this.MGraphic = e.Graphics;
+            this.MGraphic = e;
             MGraphic.DrawEllipse(MPen1, getCircle(Start1, End1));
             paintColor();
         }
 
-        public override void draw(Pen p, PaintEventArgs e)
+        public override void draw(Pen p, Graphics e)
         {
-            e.Graphics.DrawEllipse(p, getCircle(Start1, End1));
+            e.DrawEllipse(p, getCircle(Start1, End1));
             this.MPen1 = new Pen(p.Color, p.Width);
             paintColor();
         }

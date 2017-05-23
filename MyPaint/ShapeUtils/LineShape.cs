@@ -85,16 +85,16 @@ namespace MyPaint.ShapeUtils
             MGraphic.DrawLine(MPen, Start, End);
         }
 
-        public override void draw(PaintEventArgs e)
+        public override void draw(Graphics e)
         {
-            this.MGraphic = e.Graphics;            
+            this.MGraphic = e;            
             MGraphic.DrawLine(MPen, Start, End);
         }
 
-        public override void draw(Pen p, PaintEventArgs e)
+        public override void draw(Pen p, Graphics e)
         {
             this.MPen = new Pen(p.Color, p.Width);
-            this.MGraphic = e.Graphics;
+            this.MGraphic = e;
             MGraphic.DrawLine(MPen, Start, End);
         }
 
@@ -129,7 +129,7 @@ namespace MyPaint.ShapeUtils
         public override void add(Pen p, Point starPoint, Point endPoint, Graphics g)
         {
             this.mPen = new Pen(p.Color, p.Width);
-            this.start = start;
+            this.start = starPoint;
             this.end = endPoint;
             this.mGraphic = g;
         }
