@@ -23,14 +23,19 @@ namespace MyPaint
         private Point end = new Point(0, 0);
         private Point current = new Point(0, 0);
         private bool drawing;
+        ContextMenu mContextMenu;
         private String pictureName = "Untitle-1.jpeg";
 
         private List<Shape> shape = new List<Shape>();
+        private List<Bitmap> mBitmapList = new List<Bitmap>();
         private Status state;
         private Color lineColor;
         private List<String> cbPaintBucketStateList;
         TextBox tb = new TextBox();
         private bool saveState = false;
+        public PaintEventArgs PEA;
+        private static int bitmapWidth = 916;
+        private static int bitmapHeight = 507;
 
         public enum Thickness
         {
@@ -60,16 +65,23 @@ namespace MyPaint
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //shape.Add(new RectangleShape(start, end));
             WindowState = FormWindowState.Maximized;
             state = Status.Pencil;
+            panelColor1.BackColor = Color.AliceBlue;
 
             declareShapeClick();
             declareThicknessClick();
             declareShapeMouseHover();
             declareCanvasMouseEvent();
+            declareContextMenu();
+
             this.Controls.Add(tb);
             this.KeyPress += pbCanvas_KeyDown;
+
+            createImage();
+
+            mBitmapList.Add(new Bitmap(pbCanvas.Image));
+            g = Graphics.FromImage(mBitmapList[0]);
 
             colorPickEdit1.Color = Color.Black;
             lineColor = colorPickEdit1.Color;
@@ -81,6 +93,7 @@ namespace MyPaint
 
         }
 
+        //tạo sự kiện rê chuột qua nút
         private void declareShapeMouseHover()
         {
             btDrawPencil.MouseHover += showDetail;
@@ -101,6 +114,8 @@ namespace MyPaint
             btDrawPencil.Click += shapeOptionClick;
             btPaintBucket.Click += shapeOptionClick;
         }
+
+        // chọn độ dày
         private void declareThicknessClick()
         {
             btThickness1.Click += chooseThickness;
@@ -108,6 +123,8 @@ namespace MyPaint
             btThickness5.Click += chooseThickness;
             btThickness7.Click += chooseThickness;
         }
+        
+        //tạo sự kiện chuột tại canvas
         private void declareCanvasMouseEvent()
         {
             pbCanvas.MouseDown += pbCanvas_MouseDown;
@@ -116,56 +133,75 @@ namespace MyPaint
             pbCanvas.MouseUp += pbCanvas_MouseUp;
         }
 
+        //tạo context menu
+        private void declareContextMenu()
+        {
+            mContextMenu = new ContextMenu();
+            mContextMenu.MenuItems.Add("Open", new EventHandler(openToolStripMenuItem_Click));
+            mContextMenu.MenuItems.Add("Save", new EventHandler(saveToolStripMenuItem_Click));
+            mContextMenu.MenuItems.Add("Undo");
+            pbCanvas.ContextMenu = mContextMenu;
+        }
+
         // nhấn chuột pbCanvas
         private void pbCanvas_MouseDown(object sender, MouseEventArgs e)
         {
-            current = e.Location;
             start = e.Location;
+            end = e.Location;
+            current = e.Location;    
             drawing = true;
             lineColor = colorPickEdit1.Color;
             mPen.Color = lineColor;
 
-            switch (state)
+            mBitmapList.Add(new Bitmap(pbCanvas.Image));
+            g = Graphics.FromImage(mBitmapList[mBitmapList.Count - 1]);
+
+            if (!e.Button.Equals(MouseButtons.Left))
+                return;
+            else
             {
-                case Status.Line:
-                    {
-                        shape.Add(new LineShape(mPen, start, end));
-                        break;
-                    }
-                case Status.Rectangle:
-                    {
-                        shape.Add(new RectangleShape(mPen, start, end));
-                        break;
-                    }
-                case Status.Square:
-                    {
-                        shape.Add(new SquareShape(mPen, start, end));
-                        break;
-                    }
-                case Status.Ellipse:
-                    {
-                        shape.Add(new EllipseShape(mPen, start, end));
-                        break;
-                    }
-                case Status.Circle:
-                    {
-                        shape.Add(new CircleShape(mPen, start, end));
-                        break;
-                    }
-                case Status.PaintBucketSolid:
-                    {
-                        fillTheShape(e.Location);
-                        break;
-                    }
-                case Status.PaintBucketGradient:
-                    {
-                        break;
-                    }
-                default:
-                    {
-                        shape.Add(new PencilShape(current));
-                        break;
-                    }
+                switch (state)
+                {
+                    case Status.Line:
+                        {
+                            shape.Add(new LineShape(mPen, start, end));
+                            break;
+                        }
+                    case Status.Rectangle:
+                        {
+                            shape.Add(new RectangleShape(mPen, start, end));
+                            break;
+                        }
+                    case Status.Square:
+                        {
+                            shape.Add(new SquareShape(mPen, start, end));
+                            break;
+                        }
+                    case Status.Ellipse:
+                        {
+                            shape.Add(new EllipseShape(mPen, start, end));
+                            break;
+                        }
+                    case Status.Circle:
+                        {
+                            shape.Add(new CircleShape(mPen, start, end));
+                            break;
+                        }
+                    case Status.PaintBucketSolid:
+                        {
+                            //fillTheShape(e.Location);
+                            break;
+                        }
+                    case Status.PaintBucketGradient:
+                        {
+                            break;
+                        }
+                    default:
+                        {
+                            shape.Add(new PencilShape(current));
+                            break;
+                        }
+                }
             }
         }
 
@@ -174,7 +210,8 @@ namespace MyPaint
         {
             Color cl = getPixelColor(e.X, e.Y);
 
-            Bitmap bmp = new Bitmap(pbCanvas.Image);
+            mBitmapList.Add(new Bitmap(pbCanvas.Image));
+            Bitmap bmp = mBitmapList[mBitmapList.Count - 1];
 
             FloodFill(bmp,
                 e,
@@ -187,25 +224,38 @@ namespace MyPaint
         // nhả chuột pbCanvas
         private void pbCanvas_MouseUp(object sender, MouseEventArgs e)
         {
-            if (drawing)
+            if (drawing && e.Button.Equals(MouseButtons.Left))
             {
+                
                 if (state != Status.PaintBucketGradient && state != Status.PaintBucketSolid)
                 {
-                    shape[shape.Count - 1].draw(mPen, start, end, Graphics.FromImage(pbCanvas.Image));
+                    shape[shape.Count - 1].draw(mPen, start, end, g);
+                    pbCanvas.Image = mBitmapList[mBitmapList.Count - 1];
+                }
+                else if(state == Status.PaintBucketSolid)
+                {
+                    fillTheShape(e.Location);
                 }
                 drawing = false;
+                
+                if(mBitmapList.Count > 5)
+                {
+                    mBitmapList.RemoveAt(0);
+                }
+               
             }
+            pbCanvas.Image = mBitmapList[mBitmapList.Count - 1];
             pbCanvas.Invalidate();
+            
         }
 
         // di chuyển chuột trong pbCanvas
         private void pbCanvas_MouseMove(object sender, MouseEventArgs e)
-        {
-            current = e.Location;
-            end = e.Location;
-
-            if (drawing)
+        {   
+            if (drawing && !e.Button.Equals(MouseButtons.Right))
             {
+                current = e.Location;
+                end = e.Location;
                 pbCanvas.Invalidate();
             }
         }
@@ -213,23 +263,23 @@ namespace MyPaint
         // vẽ pbCanvas
         private void pbCanvas_Paint(object sender, PaintEventArgs e)
         {
-            createImage();
+            //PEA = e;
+            //g = e.Graphics;
+            //createImage();                                 
+
             if (shape.Count > 0)
             {
-                for (int i = 0; i < shape.Count; i++)
-                {
-                    shape[i].draw(e.Graphics);
-                }
+                
                 if (drawing)
                 {
                     if (state != Status.PaintBucketSolid)
                     {
-                        shape[shape.Count - 1].draw(mPen, start, end, e.Graphics);
+                        shape[shape.Count - 1].draw(mPen, start, end, 
+                            e.Graphics);                        
                     }
-                    //shape[shape.Count - 1].fillColor(colorPickEdit1.Color, colorPickEdit2.Color);
-                }
+                }                
+                
             }
-
         }
 
         // tạo ảnh mặc định cho PictureBox pbCanvas
@@ -237,7 +287,7 @@ namespace MyPaint
         {
             if (pbCanvas.Image == null)
             {
-                Bitmap bmp = new Bitmap(pbCanvas.Width, pbCanvas.Height);
+                Bitmap bmp = new Bitmap(bitmapWidth, bitmapHeight);
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
                     g.Clear(Color.White);
@@ -245,6 +295,16 @@ namespace MyPaint
                 pbCanvas.Image = bmp;
                 pbCanvas.Invalidate();
             }
+            else
+            {
+                if (mBitmapList.Count > 0)
+                {
+                    
+                    //pbCanvas.Image = new Bitmap(mBitmapList[mBitmapList.Count - 1]);
+                    //g = Graphics.FromImage(pbCanvas.Image);
+                    pbCanvas.Invalidate();
+                }
+            }            
         }
 
         [DllImport("user32.dll")]
@@ -282,6 +342,7 @@ namespace MyPaint
         public void FloodFill(Bitmap bmp, Point pt, Color targetColor, Color replacementColor)
         {
             Queue<Point> q = new Queue<Point>();
+           
             q.Enqueue(pt);
             while (q.Count > 0)
             {
@@ -312,6 +373,7 @@ namespace MyPaint
                     e.X++;
                 }
             }
+            q.GetEnumerator().Dispose();
             return;
         }
         ///////////////////
@@ -356,6 +418,11 @@ namespace MyPaint
                 }
                 else state = Status.PaintBucketSolid;
 
+                return;
+            }
+            if (sender.Equals(btSelectRange))
+            {
+                state = Status.Rectangle;
                 return;
             }
         }
@@ -428,6 +495,11 @@ namespace MyPaint
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            saveImage();
+        }
+
+        private bool saveImage()
+        {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "JPEG files (*.jpeg)|*.jpeg"
                 + "|PNG files (*.png)|*.png"
@@ -440,11 +512,10 @@ namespace MyPaint
 
             if (dialog.ShowDialog() == DialogResult.OK && !dialog.FileName.Equals(""))
             {
-                Bitmap bmp = new Bitmap(pbCanvas.Image);
-                bmp.Save(dialog.FileName, ImageFormat.Jpeg);
+                pbCanvas.Image.Save(dialog.FileName);
             }
+            return true;
         }
-
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -459,7 +530,9 @@ namespace MyPaint
             {
                 pictureName = dialog.FileName;
                 Image i = Image.FromFile(dialog.FileName);
-                pbCanvas.Image = i;
+
+                mBitmapList.Add(new Bitmap(i));
+                pbCanvas.Image = mBitmapList[mBitmapList.Count -1];
                 pbCanvas.Width = i.Width;
                 pbCanvas.Height = i.Height;
             }
@@ -467,14 +540,8 @@ namespace MyPaint
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (Graphics g = Graphics.FromImage(pbCanvas.Image))
-            {
-                //g.Clear(Color.White);
-                shape.Clear();
-
-                //pbCanvas.
-                pbCanvas.Image = new Bitmap(panelCanvas.Width, panelCanvas.Height);
-            }
+            shape.Clear();
+            pbCanvas.Image = new Bitmap(bitmapWidth, bitmapHeight);
             pbCanvas.Invalidate();
         }
 
@@ -489,7 +556,34 @@ namespace MyPaint
         //Exit menu thoát chương trình
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Dispose();
+            if (saveState.Equals(false))
+            {
+                var result = MessageBox.Show("Save change to this image?"
+                    , "Wanrning"
+                    , MessageBoxButtons.YesNoCancel);
+
+                switch (result)
+                {
+                    case DialogResult.Cancel: return;
+                    case DialogResult.OK:
+                        {
+                            saveImage();
+                            break;
+                        }
+                    default: break;
+                }
+            }
+            this.Close();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mBitmapList.Count > 1)
+            {
+                mBitmapList.RemoveAt(mBitmapList.Count - 1);
+                pbCanvas.Image = mBitmapList[mBitmapList.Count - 1];
+
+            }
         }
     }
 }

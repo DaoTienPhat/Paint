@@ -89,9 +89,9 @@ namespace MyPaint
 
         }
 
-        public override void draw(Graphics e)
+        public override void draw(PaintEventArgs e)
         {
-            this.mGraphic = e;
+            this.mGraphic = e.Graphics;
             mGraphic.DrawRectangle(MPen, getRectangle(Start, End));
             paintColor();
         }
@@ -174,6 +174,13 @@ namespace MyPaint
             this.start = starPoint;
             this.end = endPoint;
             this.mGraphic = g;
+        }
+
+        public override void draw(Graphics g)
+        {
+            this.mGraphic = g;
+            mGraphic.DrawRectangle(MPen, getRectangle(Start, End));
+            paintColor();
         }
     }
 }

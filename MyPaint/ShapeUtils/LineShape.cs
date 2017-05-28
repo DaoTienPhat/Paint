@@ -85,9 +85,15 @@ namespace MyPaint.ShapeUtils
             MGraphic.DrawLine(MPen, Start, End);
         }
 
+        public override void draw(PaintEventArgs e)
+        {
+            this.MGraphic = e.Graphics;            
+            MGraphic.DrawLine(MPen, Start, End);
+        }
+
         public override void draw(Graphics e)
         {
-            this.MGraphic = e;            
+            this.MGraphic = e;
             MGraphic.DrawLine(MPen, Start, End);
         }
 

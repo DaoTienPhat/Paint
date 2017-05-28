@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
@@ -48,22 +52,24 @@
             this.pbCanvas = new System.Windows.Forms.PictureBox();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.btThickness1 = new System.Windows.Forms.Button();
-            this.btThickness5 = new System.Windows.Forms.Button();
-            this.btThickness7 = new System.Windows.Forms.Button();
-            this.btThickness3 = new System.Windows.Forms.Button();
+            this.btThickness1 = new DevExpress.XtraEditors.SimpleButton();
+            this.btThickness3 = new DevExpress.XtraEditors.SimpleButton();
+            this.btThickness5 = new DevExpress.XtraEditors.SimpleButton();
+            this.btThickness7 = new DevExpress.XtraEditors.SimpleButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.colorPickEdit1 = new DevExpress.XtraEditors.ColorPickEdit();
             this.colorPickEdit2 = new DevExpress.XtraEditors.ColorPickEdit();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.panelColor1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.panelColor2 = new System.Windows.Forms.Panel();
             this.cbPaintBuketState = new System.Windows.Forms.ComboBox();
             this.btPaintBucket = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defaultLookAndFeel1 = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btSelectRange = new DevExpress.XtraEditors.SimpleButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -72,16 +78,18 @@
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit2.Properties)).BeginInit();
-            this.panel4.SuspendLayout();
-            this.panel5.SuspendLayout();
+            this.panelColor1.SuspendLayout();
+            this.panelColor2.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -104,7 +112,7 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -112,7 +120,7 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -120,9 +128,33 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Text = "Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -241,6 +273,7 @@
             // pbCanvas
             // 
             this.pbCanvas.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.pbCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbCanvas.Location = new System.Drawing.Point(3, 3);
             this.pbCanvas.Name = "pbCanvas";
             this.pbCanvas.Size = new System.Drawing.Size(916, 507);
@@ -262,9 +295,9 @@
             this.panel3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.btThickness1);
+            this.panel3.Controls.Add(this.btThickness3);
             this.panel3.Controls.Add(this.btThickness5);
             this.panel3.Controls.Add(this.btThickness7);
-            this.panel3.Controls.Add(this.btThickness3);
             this.panel3.Location = new System.Drawing.Point(379, 31);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(127, 98);
@@ -272,48 +305,43 @@
             // 
             // btThickness1
             // 
-            this.btThickness1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btThickness1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btThickness1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btThickness1.Image = ((System.Drawing.Image)(resources.GetObject("btThickness1.Image")));
-            this.btThickness1.Location = new System.Drawing.Point(3, 3);
+            this.btThickness1.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btThickness1.Location = new System.Drawing.Point(4, 9);
             this.btThickness1.Name = "btThickness1";
-            this.btThickness1.Size = new System.Drawing.Size(118, 21);
-            this.btThickness1.TabIndex = 0;
-            this.btThickness1.UseVisualStyleBackColor = false;
-            // 
-            // btThickness5
-            // 
-            this.btThickness5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btThickness5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btThickness5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btThickness5.Image = ((System.Drawing.Image)(resources.GetObject("btThickness5.Image")));
-            this.btThickness5.Location = new System.Drawing.Point(3, 57);
-            this.btThickness5.Name = "btThickness5";
-            this.btThickness5.Size = new System.Drawing.Size(118, 17);
-            this.btThickness5.TabIndex = 3;
-            this.btThickness5.UseVisualStyleBackColor = false;
-            // 
-            // btThickness7
-            // 
-            this.btThickness7.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btThickness7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btThickness7.Image = ((System.Drawing.Image)(resources.GetObject("btThickness7.Image")));
-            this.btThickness7.Location = new System.Drawing.Point(3, 79);
-            this.btThickness7.Name = "btThickness7";
-            this.btThickness7.Size = new System.Drawing.Size(118, 17);
-            this.btThickness7.TabIndex = 1;
-            this.btThickness7.UseVisualStyleBackColor = false;
+            this.btThickness1.Size = new System.Drawing.Size(118, 13);
+            this.btThickness1.TabIndex = 4;
             // 
             // btThickness3
             // 
-            this.btThickness3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btThickness3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btThickness3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btThickness3.Image = ((System.Drawing.Image)(resources.GetObject("btThickness3.Image")));
-            this.btThickness3.Location = new System.Drawing.Point(3, 30);
+            this.btThickness3.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btThickness3.Location = new System.Drawing.Point(3, 32);
             this.btThickness3.Name = "btThickness3";
-            this.btThickness3.Size = new System.Drawing.Size(118, 21);
-            this.btThickness3.TabIndex = 2;
-            this.btThickness3.UseVisualStyleBackColor = false;
+            this.btThickness3.Size = new System.Drawing.Size(118, 13);
+            this.btThickness3.TabIndex = 14;
+            // 
+            // btThickness5
+            // 
+            this.btThickness5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btThickness5.Image = ((System.Drawing.Image)(resources.GetObject("btThickness5.Image")));
+            this.btThickness5.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btThickness5.Location = new System.Drawing.Point(3, 57);
+            this.btThickness5.Name = "btThickness5";
+            this.btThickness5.Size = new System.Drawing.Size(118, 13);
+            this.btThickness5.TabIndex = 4;
+            // 
+            // btThickness7
+            // 
+            this.btThickness7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btThickness7.Image = ((System.Drawing.Image)(resources.GetObject("btThickness7.Image")));
+            this.btThickness7.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btThickness7.Location = new System.Drawing.Point(3, 80);
+            this.btThickness7.Name = "btThickness7";
+            this.btThickness7.Size = new System.Drawing.Size(118, 13);
+            this.btThickness7.TabIndex = 1;
             // 
             // colorPickEdit1
             // 
@@ -341,16 +369,16 @@
             this.colorPickEdit2.Size = new System.Drawing.Size(48, 20);
             this.colorPickEdit2.TabIndex = 6;
             // 
-            // panel4
+            // panelColor1
             // 
-            this.panel4.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Controls.Add(this.label1);
-            this.panel4.Controls.Add(this.colorPickEdit1);
-            this.panel4.Location = new System.Drawing.Point(23, 43);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(59, 51);
-            this.panel4.TabIndex = 7;
+            this.panelColor1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panelColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelColor1.Controls.Add(this.label1);
+            this.panelColor1.Controls.Add(this.colorPickEdit1);
+            this.panelColor1.Location = new System.Drawing.Point(23, 43);
+            this.panelColor1.Name = "panelColor1";
+            this.panelColor1.Size = new System.Drawing.Size(59, 51);
+            this.panelColor1.TabIndex = 7;
             // 
             // label1
             // 
@@ -370,16 +398,16 @@
             this.label2.TabIndex = 8;
             this.label2.Text = "Color 2";
             // 
-            // panel5
+            // panelColor2
             // 
-            this.panel5.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.colorPickEdit2);
-            this.panel5.Controls.Add(this.label2);
-            this.panel5.Location = new System.Drawing.Point(88, 43);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(56, 51);
-            this.panel5.TabIndex = 9;
+            this.panelColor2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panelColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelColor2.Controls.Add(this.colorPickEdit2);
+            this.panelColor2.Controls.Add(this.label2);
+            this.panelColor2.Location = new System.Drawing.Point(88, 43);
+            this.panelColor2.Name = "panelColor2";
+            this.panelColor2.Size = new System.Drawing.Size(56, 51);
+            this.panelColor2.TabIndex = 9;
             // 
             // cbPaintBuketState
             // 
@@ -404,9 +432,9 @@
             this.panel6.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.btPaintBucket);
-            this.panel6.Controls.Add(this.panel4);
+            this.panel6.Controls.Add(this.panelColor1);
             this.panel6.Controls.Add(this.cbPaintBuketState);
-            this.panel6.Controls.Add(this.panel5);
+            this.panel6.Controls.Add(this.panelColor2);
             this.panel6.Location = new System.Drawing.Point(207, 30);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(166, 99);
@@ -425,13 +453,32 @@
             this.panel7.Size = new System.Drawing.Size(950, 518);
             this.panel7.TabIndex = 5;
             // 
-            // exitToolStripMenuItem
+            // defaultLookAndFeel1
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.defaultLookAndFeel1.LookAndFeel.SkinName = "Dark Side";
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.btSelectRange);
+            this.panel2.Location = new System.Drawing.Point(512, 30);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(58, 99);
+            this.panel2.TabIndex = 13;
+            // 
+            // btSelectRange
+            // 
+            this.btSelectRange.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.btSelectRange.Appearance.Options.UseFont = true;
+            this.btSelectRange.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btSelectRange.Image = ((System.Drawing.Image)(resources.GetObject("btSelectRange.Image")));
+            this.btSelectRange.ImageLocation = DevExpress.XtraEditors.ImageLocation.TopCenter;
+            this.btSelectRange.Location = new System.Drawing.Point(3, 4);
+            this.btSelectRange.Name = "btSelectRange";
+            this.btSelectRange.Size = new System.Drawing.Size(50, 67);
+            this.btSelectRange.TabIndex = 0;
+            this.btSelectRange.Text = "Select";
             // 
             // Form1
             // 
@@ -439,6 +486,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(955, 674);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel3);
@@ -459,12 +507,13 @@
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.colorPickEdit2.Properties)).EndInit();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
+            this.panelColor1.ResumeLayout(false);
+            this.panelColor1.PerformLayout();
+            this.panelColor2.ResumeLayout(false);
+            this.panelColor2.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,19 +534,15 @@
         private System.Windows.Forms.Panel panelCanvas;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button btThickness1;
-        private System.Windows.Forms.Button btThickness5;
-        private System.Windows.Forms.Button btThickness7;
-        private System.Windows.Forms.Button btThickness3;
         private System.Windows.Forms.Button btDrawLine;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private DevExpress.XtraEditors.ColorPickEdit colorPickEdit1;
         private System.Windows.Forms.Button btDrawPencil;
         private DevExpress.XtraEditors.ColorPickEdit colorPickEdit2;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panelColor1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panelColor2;
         private System.Windows.Forms.ComboBox cbPaintBuketState;
         private System.Windows.Forms.Button btPaintBucket;
         private System.Windows.Forms.Panel panel6;
@@ -507,6 +552,15 @@
         private System.Windows.Forms.PictureBox pbCanvas;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
+        private System.Windows.Forms.Panel panel2;
+        private DevExpress.XtraEditors.SimpleButton btSelectRange;
+        private DevExpress.XtraEditors.SimpleButton btThickness7;
+        private DevExpress.XtraEditors.SimpleButton btThickness5;
+        private DevExpress.XtraEditors.SimpleButton btThickness3;
+        private DevExpress.XtraEditors.SimpleButton btThickness1;
     }
 }
 

@@ -133,6 +133,12 @@ namespace MyPaint
             return false;
         }
 
+        public override void draw(PaintEventArgs e)
+        {
+            this.MGraphic = e.Graphics;
+            MGraphic.DrawEllipse(MPen1, getEllipse(Start1, End1));
+            paintColor();
+        }
         public override void draw(Graphics e)
         {
             this.MGraphic = e;

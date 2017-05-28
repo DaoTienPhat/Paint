@@ -122,13 +122,28 @@ namespace MyPaint.ShapeUtils
             }
         }
 
-        public override void draw(Graphics e)
+        public override void draw(PaintEventArgs e)
         {           
             if (PointList.Count > 1)
             {
                 for (int i = 0; i < PointList.Count - 1; i++)
                 {
-                    this.MGraphic = e;
+                    this.MGraphic = e.Graphics;
+                    this.mPen.SetLineCap(LineCap.Round
+                , LineCap.Round
+                , DashCap.Round);
+                    this.MGraphic.DrawLine(MPen, PointList[i], PointList[i + 1]);
+                }
+            }
+        }
+
+        public override void draw(Graphics e)
+        {
+            if (PointList.Count > 1)
+            {
+                for (int i = 0; i < PointList.Count - 1; i++)
+                {
+                    this.mGraphic = e;
                     this.mPen.SetLineCap(LineCap.Round
                 , LineCap.Round
                 , DashCap.Round);
@@ -170,7 +185,15 @@ namespace MyPaint.ShapeUtils
                 , LineCap.Round
                 , DashCap.Round);
 
-            this.addPoint(endPoint);       
+            this.addPoint(endPoint);
+
+            if (PointList.Count > 1)
+            {
+                for (int i = 0; i < PointList.Count - 1; i++)
+                {
+                    this.MGraphic.DrawLine(MPen, PointList[i], PointList[i + 1]);
+                }
+            }
         }
 
         public override void draw(Pen p, Point startPoint, Point endPoint, Graphics g)
@@ -185,6 +208,13 @@ namespace MyPaint.ShapeUtils
                 , DashCap.Round);
 
             this.addPoint(endPoint);
+            if (PointList.Count > 1)
+            {
+                for (int i = 0; i < PointList.Count - 1; i++)
+                {
+                    this.MGraphic.DrawLine(MPen, PointList[i], PointList[i + 1]);
+                }
+            }
             //paintColor();
         }
 
