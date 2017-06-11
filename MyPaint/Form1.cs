@@ -343,7 +343,7 @@ namespace MyPaint
             //return (a.ToArgb() & 0xffffff) == (b.ToArgb() & 0xffffff);
         }
 
-        // giải thuật tô màu: lan màu ra xung quanh
+        // giải thuật tô màu: lan màu ra xung quanh các vùng có cũng màu sắc
         public void FloodFill(Bitmap bmp, Point pt, Color targetColor, Color replacementColor)
         {
             Queue<Point> q = new Queue<Point>();
