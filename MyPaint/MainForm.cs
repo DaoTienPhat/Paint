@@ -7,7 +7,6 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -23,18 +22,17 @@ namespace MyPaint
         private Point start = new Point(0, 0);
         private Point end = new Point(0, 0);
         private Point current = new Point(0, 0);
+        private bool drawing;
         ContextMenu mContextMenu;
         private String pictureName = "Untitle-1.jpeg";
-
-        private bool drawing;
-        private bool isSaved = false;
 
         private List<Shape> shape = new List<Shape>();
         private List<Bitmap> mBitmapList = new List<Bitmap>();
         private Status state;
         private Color lineColor;
-        //private List<String> cbPaintBucketStateList;
+        private List<String> cbPaintBucketStateList;
         TextBox tb = new TextBox();
+        private bool saveState = false;
         public PaintEventArgs PEA;
         private static int bitmapWidth = 916;
         private static int bitmapHeight = 507;
@@ -68,8 +66,6 @@ namespace MyPaint
         private void Form1_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Maximized;
-            ActiveControl = btDrawPencil;
-            this.AllowDrop = true;
             state = Status.Pencil;
             panelColor1.BackColor = Color.AliceBlue;
 
@@ -209,7 +205,6 @@ namespace MyPaint
             }
         }
 
-        // tô màu vào khung vẽ
         public void fillTheShape(Point e)
         {
             Color cl = getPixelColor(e.X, e.Y);
@@ -229,7 +224,8 @@ namespace MyPaint
         private void pbCanvas_MouseUp(object sender, MouseEventArgs e)
         {
             if (drawing && e.Button.Equals(MouseButtons.Left))
-            {                
+            {
+                
                 if (state != Status.PaintBucketGradient && state != Status.PaintBucketSolid)
                 {
                     shape[shape.Count - 1].draw(mPen, start, end, g);
@@ -241,7 +237,7 @@ namespace MyPaint
                 }
                 drawing = false;
                 
-                if(mBitmapList.Count > 50)
+                if(mBitmapList.Count > 5)
                 {
                     mBitmapList.RemoveAt(0);
                 }
@@ -249,7 +245,7 @@ namespace MyPaint
             }
             pbCanvas.Image = mBitmapList[mBitmapList.Count - 1];
             pbCanvas.Invalidate();
-            isSaved = false;
+            
         }
 
         // di chuyển chuột trong pbCanvas
@@ -271,7 +267,8 @@ namespace MyPaint
             //createImage();                                 
 
             if (shape.Count > 0)
-            {                
+            {
+                
                 if (drawing)
                 {
                     if (state != Status.PaintBucketSolid)
@@ -308,8 +305,7 @@ namespace MyPaint
                 }
             }            
         }
-        // code tìm được trên mạng, không hiểu lắm về những hàm này
-        // bắt đầu:
+
         [DllImport("user32.dll")]
         static extern IntPtr GetDC(IntPtr hwnd);
 
@@ -318,7 +314,6 @@ namespace MyPaint
 
         [DllImport("gdi32.dll")]
         static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
-        // kết thúc;
 
         public Color getPixelColor(int x, int y)
         {
@@ -343,7 +338,6 @@ namespace MyPaint
             //return (a.ToArgb() & 0xffffff) == (b.ToArgb() & 0xffffff);
         }
 
-        // giải thuật tô màu: lan màu ra xung quanh
         public void FloodFill(Bitmap bmp, Point pt, Color targetColor, Color replacementColor)
         {
             Queue<Point> q = new Queue<Point>();
@@ -382,7 +376,6 @@ namespace MyPaint
             return;
         }
         ///////////////////
-
         // envent click cho các shape
         private void shapeOptionClick(object sender, EventArgs e)
         {
@@ -418,8 +411,7 @@ namespace MyPaint
             }
             if (sender.Equals(btPaintBucket))
             {
-                if (cbPaintBuketState.SelectedItem.ToString()
-                    .Equals("Linear Gradient Color"))
+                if (cbPaintBuketState.SelectedItem.ToString() == "Linear Gradient Color")
                 {
                     state = Status.PaintBucketGradient;
                 }
@@ -460,10 +452,9 @@ namespace MyPaint
             }
         }
 
-        // hiển thị chi tiết của các đối tượng
         private void showDetail(object sender, EventArgs e)
         {
-            ToolTip ToolTip1 = new ToolTip();
+            System.Windows.Forms.ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             if (sender.Equals(btDrawRectangle))
             {
                 ToolTip1.SetToolTip(btDrawRectangle, "Rectangle");
@@ -501,13 +492,11 @@ namespace MyPaint
             }
         }
 
-        // sự kiện nhấn nút lưu
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveImage();
         }
 
-        // lưu hình ảnh với 1 trong 5 định dạng
         private bool saveImage()
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -523,13 +512,9 @@ namespace MyPaint
             if (dialog.ShowDialog() == DialogResult.OK && !dialog.FileName.Equals(""))
             {
                 pbCanvas.Image.Save(dialog.FileName);
-                isSaved = true;
-                return true;
             }
-            return false;
+            return true;
         }
-
-        // sự kiện nhấn nút Open: mở file với 1 trong 5 định dạng
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -552,7 +537,6 @@ namespace MyPaint
             }
         }
 
-        // sự kiện nhấn nút New: tạo 1 khu vực vẽ mới
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             shape.Clear();
@@ -560,7 +544,6 @@ namespace MyPaint
             pbCanvas.Invalidate();
         }
 
-        // sự kiện nhấn phím 
         private void pbCanvas_KeyDown(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar.Equals((char) Keys.Z))
@@ -572,7 +555,7 @@ namespace MyPaint
         //Exit menu thoát chương trình
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isSaved.Equals(false))
+            if (saveState.Equals(false))
             {
                 var result = MessageBox.Show("Save change to this image?"
                     , "Wanrning"
@@ -592,43 +575,13 @@ namespace MyPaint
             this.Close();
         }
 
-        // sự kiện nhấn nút Undo: mở lại bitmap trước đó
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (mBitmapList.Count > 1)
             {
                 mBitmapList.RemoveAt(mBitmapList.Count - 1);
-                pbCanvas.Height = mBitmapList[mBitmapList.Count - 1].Height;
-                pbCanvas.Width = mBitmapList[mBitmapList.Count - 1].Width;
                 pbCanvas.Image = mBitmapList[mBitmapList.Count - 1];
 
-            }
-        }
-
-        // sự kiện kéo ảnh vào khung vẽ
-        private void pbCanvas_DragEnter(object sender, DragEventArgs e)
-        {
-            if(e.Data.GetDataPresent(DataFormats.FileDrop, false) == true)
-            {
-                e.Effect = DragDropEffects.All;
-            }
-        }
-
-        // sự kiện thả ảnh vào khung vẽ
-        private void pbCanvas_DragDrop(object sender, DragEventArgs e)
-        {
-            String[] droppedFiles = (String[])e.Data.GetData(DataFormats.FileDrop);
-
-            foreach(String file in droppedFiles)
-            {
-                pictureName = Path.GetFileName(file);
-                Image i = Image.FromFile(file);
-                mBitmapList.Add(new Bitmap(i));
-                pbCanvas.Image = mBitmapList[mBitmapList.Count - 1];
-                pbCanvas.Width = i.Width;
-                pbCanvas.Height = i.Height;
-                isSaved = false;
-                return;
             }
         }
     }

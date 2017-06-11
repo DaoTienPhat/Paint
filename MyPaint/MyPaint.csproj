@@ -51,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FloodFillClass.cs" />
     <Compile Include="ShapeUtils\CircleShape.cs" />
     <Compile Include="ShapeUtils\EllipseShape.cs" />
     <Compile Include="Form1.cs">
